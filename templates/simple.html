@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<head>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script type="text/JavaScript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <title>saf</title>
+
+
+</head>
+<script src="{{ url_for("static", filename="js/iframe_resize.js") }}"></script>
+<style>
+    #toolbox-tools {
+    width: 660px;
+	height: 460px;
+	overflow: hidden;
+}
+
+.group-handle {
+	height: 34px;
+	width: 10px;
+	cursor: move;
+}
+
+.panel-heading {
+    cursor: move;
+}
+
+.draggable-group {
+	float: left;
+}
+
+#sortable {
+	padding: 0px;
+}
+
+#sort-holder {
+	display: none;
+}
+
+#toggle-toolbox-tools {
+    cursor: pointer;
+}
+
+#close-toolbox-tools {
+	cursor: pointer;
+}
+
+.toggle-button-group {
+    cursor: pointer;
+}
+
+.draggable-group {
+    overflow: hidden;
+}
+
+.minimized {
+    width: 12px;
+    height: 36px;
+}
+
+
+
+
+
+
+</style>
+<body>
+<div class="panel panel-primary draggable-panel toolbar-panel ui-draggable ui-resizable" id="toolbox-tools">
+    <div class="panel-heading lang-panel-header-tools">Soy un navegador retard<i class="fa fa-times pull-right close-panel" id="close-toolbox-tools"></i><i class="fa pull-right fa-chevron-down" id="toggle-toolbox-tools"></i></div>
+<iframe  width="100%" height="100%" style="height:100%;width:100%" id="toolbox-tools" id="resizable" class="resizable" class="panel panel-primary draggable-panel toolbar-panel ui-draggable ui-resizable" src="https://www.slither.io/"></iframe>
+
+</div>
+</body>

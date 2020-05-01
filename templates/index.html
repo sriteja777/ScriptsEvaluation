@@ -1,0 +1,137 @@
+{% extends "header.html" %}
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9 col-xs-12 embed-responsive embed-responsive-item" style='padding-bottom:100%; min-height: 450px'>
+            {#            <embed class="embed-responsive-item" src="{{ url_for("static", filename=file_data["path"]) }}"  />#}
+            <iframe
+                    src="/static/viewer/web/viewer.html?file={{ url_for('static', filename=file_data["path"]) }}"
+                    width="100%"
+                    height='200%'
+{#                    class="h-100"#}
+                    style="border: none; resize:both; overflow: auto; ">None
+            </iframe>
+{#                        <object data="{{ url_for("static", filename=file_data["path"]) }}" type='application/pdf' width='100%'#}
+{#                                height='100%'></object>#}
+            {#            <iframe src="https://docs.google.com/gview?url={{ url_for("static", filename=file_data["path"]) }}&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>#}
+        </div>
+        <div class="col-sm-3 col-xs-12" style="padding-top: 10px">
+            <div class="card-deck">
+                <div class="card  mb-4 mt-3" style="border-radius: 1rem">
+                    <div class="card-header text-center text-white bg-primary" style="border-radius: 1rem 1rem 0 0">Student Details</div>
+                    <div class="card-body" >
+                        <div class="card-text">
+                            <div class="row no-gutters">
+                                <div class="col-sm-3 col-3 text-right "><b>Name</b></div>
+                                <div class="col-sm-1 col-1">&nbsp;&nbsp;:</div>
+                                <div class="col-sm-8 col-8">{{ file_data["name"] }}</div>
+                            </div>
+                            <div class="row no-gutters">
+                                <div class="col-sm-3 col-3 text-right"><b>USN</b></div>
+                                <div class="col-sm-1 col-1">&nbsp;&nbsp;:</div>
+                                <div class="col-sm-8 col-8">{{ file_data["usn"] }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card " style="min-width: 18rem; max-width: 22rem; border-radius: 1rem" >
+                    <div class="card-header text-center text-white bg-primary" style="border-radius: 1rem 1rem 0 0">Marks</div>
+                    <div class="card-body">
+                        <form action="{{ url_for("submit") }}" id="inputform" method="post">
+                            {% for i in range(file_data['noq']) %}
+                                <div class="form-group row">
+                                    <label for="{{ "q" + (i + 1)|string }}" class="col-sm-3 col-3 col-form-label text-right"> {{ file_data["questions"][i] }} &nbsp;:</label>
+                                    <div class="col-sm-9 col-9 float-right">
+                                        <input type="number" class="form-control input-sm" placeholder="Enter marks"
+                                           id="{{ "q" + (i + 1)|string }}" name="{{ "q" + (i + 1)|string }}" value="0"/>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <input type="hidden" name="ind" id="ind" value={{ file_data["ind"] }}>
+                            <input type="hidden" name="usn" id="usn" value={{ file_data["usn"] }}>
+                            <input type="hidden" name="noq" value="{{ file_data["noq"] }}">
+                            <button type="button" class="btn btn-primary rounded-pill" onclick="do_ajax();">Submit</button>
+                            &nbsp; &nbsp;
+                            <div class="spinner-border" id="loader" role="status" style="display: none">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <i id = "okb" class="fa fa-check fa-2x" aria-hidden="true" style="color: #00FF00; display: none"></i>
+                            <button type="button" class="btn btn-primary float-right rounded-pill"  onclick="next(); document.documentElement.scrollTop = 0;">&nbsp;Next&nbsp; </button>
+                        </form>
+
+                    </div>
+                                        <div id="result"></div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/iframe_resize.js') }}"></script>
+<script type="text/javascript">
+    document.getElementById("evaluation").classList.add("active");
+    {#document.getElementById("evaluation").classList.add("rounded");#}
+    {#document.getElementById("marks").classList.remove("bg-primary");#}
+    {#document.getElementById("marks").classList.remove("rounded");#}
+    {#document.getElementById("evaluation").style.color = "white";#}
+
+    function next() {
+      {#window.location = location.href + '?session=' + sMath.floor((Math.random() * 1000000) + 1);#}
+        location.reload(true);
+        {#window.location.refresh()#}
+    }
+  function do_ajax() {
+    document.getElementById("loader").style.display = "inline-block";
+    document.getElementById("okb").style.display = "none";
+    const url = "{{ url_for("submit") }}";
+    fetch(url, {
+      method: "POST",
+      body: new FormData(document.getElementById("inputform")),
+      // -- or --
+      // body : JSON.stringify({
+      // user : document.getElementById('user').value,
+      // ...
+      // })
+    }).then(
+      response => response.text() // .json(), etc.
+      // same as function(response) {return response.text();}
+    ).then(
+      html =>  {
+        console.log(html);
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("okb").style.display = "inline-block";
+      }
+
+    );
+  }
+
+  {#  var req = new XMLHttpRequest();#}
+  {#  var result = document.getElementById('result');#}
+  {#  ind = document.getElementById('ind').value#}
+  {#  usn = document.getElementById('usn').value#}
+  {##}
+  {#  var marks = [];#}
+  {#  for(q =1; q<{{ file_data["noq"] }}+1;q++) {#}
+  {#    marks.push(document.getElementById('q'+q.toString()).value)#}
+  {#  }#}
+  {##}
+  {#  console.log(ind, usn, marks)#}
+  {##}
+  {#  req.onreadystatechange = function () {#}
+  {#    if (this.readyState == 4 && this.status == 200) {#}
+  {#      result.innerHTML = this.responseText;#}
+  {#    } else {#}
+  {#      result.innerHTML = "処理中...";#}
+  {#    }#}
+  {#  }#}
+  {##}
+  {#  req.open('POST', '/submit', true);#}
+  {#  req.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');#}
+  {#  req.send("name=" + document.getElementById('name').value);#}
+  {#{#}
+{#  #}
+</script>
+{% endblock %}

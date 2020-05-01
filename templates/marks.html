@@ -1,0 +1,34 @@
+{% extends "header.html" %}
+
+
+{% block body %}
+    <style>
+    .table_class  {
+        border-collapse: separate;
+        {#border-spacing: 10px 0;#}
+    }
+    td  {
+        padding: 10px 10px;
+    }
+
+    </style>
+    {{ table|safe }}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script>
+        document.getElementById("marks").classList.add("active");
+        $(document).ready(function() {
+            $('#marks-table').DataTable( {
+                "pagingType": "full_numbers",
+                "pageLength": 10,
+                lengthMenu: [10, 20, 30, 40, 50],
+                language: {
+                    searchPlaceholder: "Search with Name, USN or Marks",
+                },
+                // initComplete: function() {
+                //     $(this.api().cell(':last', {order:'original'}).node()).css('background-color', '#ffd699');
+                // }
+            } );
+        } );
+    </script>
+{% endblock %}
