@@ -1,7 +1,15 @@
 {% extends "header.html" %}
-
-
 {% block body %}
+    <nav class="navbar navbar-inverse navbar-fixed-top navbar-collapse navbar-light bg-light" id="head-navbar">
+  <ul class="nav navbar-nav nav-pills">
+    <li>
+        <a  class="nav-link rounded-pill" href="{{ url_for("evaluation",subject=subject_url) }}" id="evaluation"><span style="padding: 10px"> Evaluation </span><span class="sr-only">(current)</span></a>
+    </li>
+    <li>
+        <a  class="nav-link rounded-pill" href="{{ url_for("marks",subject=subject_url) }}" id="marks"><span style="padding: 10px"> Marks </span><span class="sr-only">(current)</span></a>
+    </li>
+  </ul>
+</nav>
     <style>
     .table_class  {
         border-collapse: separate;

@@ -1,0 +1,21 @@
+{% extends "header.html" %}
+{% block body %}
+<body>
+<div>
+    <br>
+    <p>Select one Subject from</p>
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+    {% endif %}
+    <ul>
+    {% for lis in subjects[0:] %}
+        {% for tvalue in lis %}
+            <li><a href="{{ tvalue }}">{{ tvalue }}</a></li>
+    {% endfor %}
+    {% endfor %}
+    </ul>
+
+</div>
+
+</body>
+{% endblock %}

@@ -1,10 +1,20 @@
 {% extends "header.html" %}
 {% block body %}
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-collapse navbar-light bg-light" id="head-navbar">
+  <ul class="nav navbar-nav nav-pills">
+    <li>
+        <a  class="nav-link rounded-pill" href="{{ url_for("evaluation",subject=subject_url) }}" id="evaluation"><span style="padding: 10px"> Evaluation </span><span class="sr-only">(current)</span></a>
+    </li>
+    <li>
+        <a  class="nav-link rounded-pill" href="{{ url_for("marks",subject=subject_url) }}" id="marks"><span style="padding: 10px"> Marks </span><span class="sr-only">(current)</span></a>
+    </li>
+  </ul>
+</nav>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9 col-xs-12 embed-responsive embed-responsive-item" style='padding-bottom:100%; min-height: 450px'>
-            {#            <embed class="embed-responsive-item" src="{{ url_for("static", filename=file_data["path"]) }}"  />#}
+            // {#            <embed class="embed-responsive-item" src="{{ url_for("static", filename=file_data["path"]) }}"  />#}
             <iframe
                     src="/static/viewer/web/viewer.html?file={{ url_for('static', filename=file_data["path"]) }}"
                     width="100%"
@@ -12,14 +22,14 @@
 {#                    class="h-100"#}
                     style="border: none; resize:both; overflow: auto; ">None
             </iframe>
-{#                        <object data="{{ url_for("static", filename=file_data["path"]) }}" type='application/pdf' width='100%'#}
-{#                                height='100%'></object>#}
-            {#            <iframe src="https://docs.google.com/gview?url={{ url_for("static", filename=file_data["path"]) }}&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>#}
+// {#                        <object data="{{ url_for("static", filename=file_data["path"]) }}" type='application/pdf' width='100%'#}
+// {#                                height='100%'></object>#}
+//             {#            <iframe src="https://docs.google.com/gview?url={{ url_for("static", filename=file_data["path"]) }}&embedded=true" style="width:600px; height:500px;" frameborder="0"></iframe>#}
         </div>
         <div class="col-sm-3 col-xs-12" style="padding-top: 10px">
             <div class="card-deck">
                 <div class="card  mb-4 mt-3" style="border-radius: 1rem">
-                    <div class="card-header text-center text-white bg-primary" style="border-radius: 1rem 1rem 0 0">Student Details</div>
+                    <div class="card-header text-center text-white bg-primary" style="border-radius: 1rem 1rem 0 0">Student_Details</div>
                     <div class="card-body" >
                         <div class="card-text">
                             <div class="row no-gutters">
@@ -38,7 +48,7 @@
                 <div class="card " style="min-width: 18rem; max-width: 22rem; border-radius: 1rem" >
                     <div class="card-header text-center text-white bg-primary" style="border-radius: 1rem 1rem 0 0">Marks</div>
                     <div class="card-body">
-                        <form action="{{ url_for("submit") }}" id="inputform" method="post">
+                        <form action="{{ url_for("submit",subject=subject_url) }}" id="inputform" method="post">
                             {% for i in range(file_data['noq']) %}
                                 <div class="form-group row">
                                     <label for="{{ "q" + (i + 1)|string }}" class="col-sm-3 col-3 col-form-label text-right"> {{ file_data["questions"][i] }} &nbsp;:</label>
@@ -86,7 +96,7 @@
   function do_ajax() {
     document.getElementById("loader").style.display = "inline-block";
     document.getElementById("okb").style.display = "none";
-    const url = "{{ url_for("submit") }}";
+    const url = "{{ url_for("submit",subject=subject_url) }}";
     fetch(url, {
       method: "POST",
       body: new FormData(document.getElementById("inputform")),
