@@ -103,7 +103,7 @@ def write_marks(ind, usn, marks,subject,t_m):
         data[ind][3+i] = str(mark)
 
     # print("i is ",i)
-    data[ind][13]=t_m
+    data[ind][3+len(marks)]=t_m
     print(data)
 
     with open('static/answer_scripts/'+subject+'/Marks.csv', 'w') as f:
